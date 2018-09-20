@@ -3,7 +3,8 @@ package apps
 import (
 	"github.com/rackspace/gophercloud/openstack/networking/v2/ports"
 
-	"github.com/ZTE/Knitter/knitter-monitor/services"
+	"github.com/ZTE/Knitter/knitter-monitor/domain/services"
+	"github.com/ZTE/Knitter/pkg/inter-cmpt/agt-mgr"
 )
 
 type PortForAgent struct {
@@ -28,13 +29,13 @@ type PortEagerAttrForAgent struct {
 
 type PortLazyAttrForAgent struct {
 	//NetworkID      string
-	ID         string     `json:"id"`
-	Name       string     `json:"name"`
-	TenantID   string     `json:"tenant_id"`
-	MacAddress string     `json:"mac_address"`
-	FixedIps   []ports.IP `json:"fixed_ips"`
-	GatewayIP  string     `json:"gateway_ip"`
-	Cidr       string     `json:"cidr"`
+	ID           string                     `json:"id"`
+	Name         string                     `json:"name"`
+	TenantID     string                     `json:"tenant_id"`
+	MacAddress   string                     `json:"mac_address"`
+	FixedIps     []ports.IP                 `json:"fixed_ips"`
+	FixedIPInfos []agtmgr.FixedIPItem `json:"fixed_ip_items"`
+	Cidr         string                     `json:"cidr"`
 }
 
 func newPortForAgent(port *services.Port) *PortForAgent {
@@ -57,7 +58,7 @@ func newPortForAgent(port *services.Port) *PortForAgent {
 	p.LazyAttr.TenantID = port.LazyAttr.TenantID
 	p.LazyAttr.MacAddress = port.LazyAttr.MacAddress
 	p.LazyAttr.FixedIps = port.LazyAttr.FixedIps
-	p.LazyAttr.GatewayIP = port.LazyAttr.GatewayIP
+	p.LazyAttr.FixedIPInfos = port.LazyAttr.FixedIPInfos
 	p.LazyAttr.Cidr = port.LazyAttr.Cidr
 	return p
 

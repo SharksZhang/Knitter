@@ -24,4 +24,14 @@ type PortInfo struct {
 	NetworkName  string `json:"network_name"`
 	NetworkPlane string `json:"network_plane"`
 	FixIP        string `json:"fix_ip"`
+	FixedIPInfos FixedIPItem `json:"fixed_ip_items"`
+}
+
+
+type FixedIPItem struct {
+	SubnetID  string `mapstructure:"subnet_id" json:"subnet_id"`
+	IPAddress string `mapstructure:"ip_address" json:"ip_address,omitempty"`
+	GatewayIP string `mapstructure:"gateway_ip" json:"gateway_ip"`
+	Cidr      string `mapstructure:"cidr" json:"cidr"`
+	IPVersion uint8  `mapstructure:"ip_version" json:"ip_version"`
 }

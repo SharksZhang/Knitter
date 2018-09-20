@@ -4,9 +4,9 @@
 package mockservices
 
 import (
-	services "github.com/ZTE/Knitter/knitter-monitor/services"
 	jason "github.com/antonholmquist/jason"
 	gomock "github.com/golang/mock/gomock"
+	services "github.com/ZTE/Knitter/knitter-monitor/services"
 )
 
 // Mock of PortServiceInterface interface

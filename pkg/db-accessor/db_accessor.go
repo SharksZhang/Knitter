@@ -27,6 +27,7 @@ type DbAccessor interface {
 	WatcherDir(url string) (*client.Response, error)
 	Lock(url string) bool
 	Unlock(url string) bool
+	DeleteAndSaveLeaf(deleteKey, saveKey, saveValue string) error
 }
 
 func CheckDataBase(Db DbAccessor) error {

@@ -1,8 +1,10 @@
 package apps
 
 import (
+	"encoding/json"
+	"github.com/ZTE/Knitter/knitter-monitor/domain/services"
 	"github.com/ZTE/Knitter/knitter-monitor/err-obj"
-	"github.com/ZTE/Knitter/knitter-monitor/services"
+	"github.com/ZTE/Knitter/pkg/inter-cmpt/agt-mgr"
 	"github.com/ZTE/Knitter/pkg/klog"
 )
 
@@ -12,9 +14,28 @@ func GetPodApp() PodAppInterface {
 
 type PodAppInterface interface {
 	Get(podNs, podName string) (*PodForAgent, error)
+	PatchReportPod(podNs, podName string, body []byte) error
 }
 
 type podApp struct {
+}
+
+func (pa *podApp) PatchReportPod(podNs, podName string, body []byte) error {
+	//todo add validate
+	podReq := &agtmgr.AgentPodReq{}
+	err := json.Unmarshal(body, podReq)
+	if err != nil {
+		klog.Errorf("podApp.PatchReportPod: json.Unmarshal(body:[%v], podReq:[%v]) error, err is [%v]", string(body), podReq, err)
+		return err
+	}
+	err = services.GetPodService().PatchReportPod(podNs, podName, podReq)
+	if err != nil {
+		klog.Errorf("podApp.PatchReportPod: services.GetPodService().PatchReportPod"+
+			"(podNs:[%v], podName:[%v], podReq:[%v]) error, err is [%v]", podNs, podName, podReq, err)
+		return err
+	}
+	return nil
+
 }
 
 func (pa *podApp) Get(podNs, podName string) (*PodForAgent, error) {
@@ -22,8 +43,15 @@ func (pa *podApp) Get(podNs, podName string) (*PodForAgent, error) {
 		klog.Errorf("podApp.Get: check podName or PodNs err, err is [%v]", errobj.ErrPodNSOrPodNameIsNil)
 		return nil, errobj.ErrPodNSOrPodNameIsNil
 	}
+	key := podNs + podName
+	if services.GetCreatePorts4PodController().PodEventMap.Get(key) != nil {
+		return nil, errobj.ErrPodIsOperating
+	}
 	pod, err := services.GetPodService().Get(podNs, podName)
 	klog.Debugf("services.GetPodService().Get(podNs:[%v], podName:[%v]) pod is [%v]", podNs, podName, pod)
+	if errobj.IsNotFoundError(err) {
+		return nil, err
+	}
 	if err != nil {
 		klog.Errorf("PodApp.Get err, error is [%v]", err)
 		return nil, err

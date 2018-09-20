@@ -130,6 +130,11 @@ func (l *LevelDB) DeleteDir(dir string) error {
 	return nil
 }
 
+func (l *LevelDB) DeleteAndSaveLeaf(deleteKey, saveKey, saveValue string) error{
+	return nil
+}
+
+
 // todo
 func (l *LevelDB) WatcherDir(url string) (*client.Response, error) {
 	return nil, nil

@@ -4,9 +4,11 @@
 package mockservices
 
 import (
-	services "github.com/ZTE/Knitter/knitter-monitor/services"
 	gomock "github.com/golang/mock/gomock"
 	v1 "k8s.io/api/core/v1"
+	infra "github.com/ZTE/Knitter/knitter-monitor/infra"
+	services "github.com/ZTE/Knitter/knitter-monitor/services"
+	agt_mgr "github.com/ZTE/Knitter/pkg/inter-cmpt/agt-mgr"
 )
 
 // Mock of PodServiceInterface interface
@@ -60,6 +62,36 @@ func (_m *MockPodServiceInterface) NewPodFromK8sPod(_param0 *v1.Pod) (*services.
 
 func (_mr *_MockPodServiceInterfaceRecorder) NewPodFromK8sPod(arg0 interface{}) *gomock.Call {
 	return _mr.mock.ctrl.RecordCall(_mr.mock, "NewPodFromK8sPod", arg0)
+}
+
+func (_m *MockPodServiceInterface) PatchReportPod(_param0 string, _param1 string, _param2 *agt_mgr.AgentPodReq) error {
+	ret := _m.ctrl.Call(_m, "PatchReportPod", _param0, _param1, _param2)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+func (_mr *_MockPodServiceInterfaceRecorder) PatchReportPod(arg0, arg1, arg2 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCall(_mr.mock, "PatchReportPod", arg0, arg1, arg2)
+}
+
+func (_m *MockPodServiceInterface) ReportDeletePod(_param0 string, _param1 string) error {
+	ret := _m.ctrl.Call(_m, "ReportDeletePod", _param0, _param1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+func (_mr *_MockPodServiceInterfaceRecorder) ReportDeletePod(arg0, arg1 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCall(_mr.mock, "ReportDeletePod", arg0, arg1)
+}
+
+func (_m *MockPodServiceInterface) ReportPod(_param0 *infra.ReportPod) error {
+	ret := _m.ctrl.Call(_m, "ReportPod", _param0)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+func (_mr *_MockPodServiceInterfaceRecorder) ReportPod(arg0 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCall(_mr.mock, "ReportPod", arg0)
 }
 
 func (_m *MockPodServiceInterface) Save(_param0 *services.Pod) error {
