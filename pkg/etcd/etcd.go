@@ -249,6 +249,11 @@ func (self *Etcd) DeleteDir(url string) error {
 	return err
 }
 
+func (self *Etcd) DeleteAndSaveLeaf(deleteKey, saveKey, saveValue string) error {
+	panic("method not implemented")
+	return nil
+}
+
 //func (self *Etcd) WatcherDir(url string) (*client.Response, error) {
 //	opts := client.WatcherOptions{
 //		Recursive:  true,

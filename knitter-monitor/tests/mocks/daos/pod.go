@@ -4,8 +4,8 @@
 package mockdaos
 
 import (
-	daos "github.com/ZTE/Knitter/knitter-monitor/daos"
 	gomock "github.com/golang/mock/gomock"
+	daos "github.com/ZTE/Knitter/knitter-monitor/daos"
 )
 
 // Mock of PodDaoInterface interface
@@ -48,6 +48,17 @@ func (_m *MockPodDaoInterface) Get(_param0 string, _param1 string) (*daos.PodFor
 
 func (_mr *_MockPodDaoInterfaceRecorder) Get(arg0, arg1 interface{}) *gomock.Call {
 	return _mr.mock.ctrl.RecordCall(_mr.mock, "Get", arg0, arg1)
+}
+
+func (_m *MockPodDaoInterface) Move(_param0 string, _param1 string) (*daos.PodForDB, error) {
+	ret := _m.ctrl.Call(_m, "Move", _param0, _param1)
+	ret0, _ := ret[0].(*daos.PodForDB)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (_mr *_MockPodDaoInterfaceRecorder) Move(arg0, arg1 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCall(_mr.mock, "Move", arg0, arg1)
 }
 
 func (_m *MockPodDaoInterface) Save(_param0 *daos.PodForDB) error {

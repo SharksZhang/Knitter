@@ -1,6 +1,9 @@
 package daos
 
-import "github.com/rackspace/gophercloud/openstack/networking/v2/ports"
+import (
+	"github.com/rackspace/gophercloud/openstack/networking/v2/ports"
+	"github.com/ZTE/Knitter/pkg/inter-cmpt/agt-mgr"
+)
 
 type PortDao struct {
 }
@@ -19,11 +22,11 @@ type PortForDB struct {
 	Combinable   string      `json:"combinable"`
 	Roles        []string    `json:"roles"`
 
-	ID         string     `json:"id"`
-	LazyName   string     `json:"lazy_name"`
-	TenantID   string     `json:"tenant_id"`
-	MacAddress string     `json:"mac_address"`
-	FixedIps   []ports.IP `json:"fixed_ips"`
-	GatewayIP  string     `json:"gateway_ip"`
-	Cidr       string     `json:"cidr"`
+	ID           string                     `json:"id"`
+	LazyName     string                     `json:"lazy_name"`
+	TenantID     string                     `json:"tenant_id"`
+	MacAddress   string                     `json:"mac_address"`
+	FixedIps     []ports.IP                 `json:"fixed_ips"`
+	FixedIPInfos []agtmgr.FixedIPItem `json:"fixed_ip_items"`
+	Cidr         string                     `json:"cidr"`
 }

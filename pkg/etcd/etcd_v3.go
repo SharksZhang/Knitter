@@ -208,6 +208,24 @@ func (self *EtcdV3) DeleteDir(k string) error {
 	return nil
 }
 
+func (self *EtcdV3) DeleteAndSaveLeaf(deleteKey, saveKey, saveValue string) error {
+	var err error
+	for i := 0; i < MAXTIME; i++ {
+		klog.Debugf("Etcd write:DeleteAndSaveLeaf, deleteKey is [%v], " +
+			"saveKey is [%v], retry :[%v]", deleteKey, saveKey, i)
+
+		_, err1 := self.client.Txn(context.Background()).Then(clientv3.OpDelete(deleteKey), clientv3.OpPut(saveKey, saveValue)).Commit()
+		if err1 != nil {
+			err = err1
+			klog.Warningf("Etcd.DeleteAndSaveLeaf: self.Client.Txn() error: %v", err)
+			time.Sleep(3 * time.Second)
+			continue
+		}
+		return nil
+	}
+	return err
+}
+
 func (self *EtcdV3) WatcherDir(k string) (*client.Response, error) {
 	// todo, will not implement until discussed whether compatible with v2 dbaccessor api
 	//panic("method not implemented")
